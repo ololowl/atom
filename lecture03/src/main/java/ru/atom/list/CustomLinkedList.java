@@ -52,13 +52,23 @@ public class CustomLinkedList<E> implements List<E> {
         this.last.setNext(obj);
         this.last.setNextPrev(this.last);
         this.last = this.last.getNext();
-        //this.last.next = null;
         return true;
     }
 
     @Override
     public boolean remove(Object o) {
         E elem = (E) o;
+        if (this.last.getValue() == o) {
+            if (this.last.getPrev() != null) {
+                this.last = this.last.getPrev();
+                this.last.setNextPrev(null);
+                this.last.setNext(null);
+            } else {
+                this.last = null;
+                this.first = null;
+            }
+            return true;
+        }
         if (this.first.getValue() == o) {
             this.first = this.first.getNext();
             this.first.setPrevNext(null);
@@ -75,11 +85,6 @@ public class CustomLinkedList<E> implements List<E> {
                 node.setNext(null);
                 return true;
             }
-        }
-        if (this.last.getValue() == o) {
-            this.last = this.last.getPrev();
-            this.last.setNext(null);
-            return true;
         }
         return false;
     }
